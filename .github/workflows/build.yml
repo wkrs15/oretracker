@@ -1,4 +1,4 @@
-name: Build
+name: Build and Release
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -21,15 +21,48 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Read mod version
+        id: version
+        shell: bash
+        run: |
+          VERSION=$(grep '^mod_version=' gradle.properties | cut -d= -f2 | tr -d '\r')
+          test -n "$VERSION"
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Grant Gradle wrapper permission
         run: chmod +x gradlew
 
       - name: Build mod
         run: ./gradlew build --no-daemon --stacktrace
 
-      - name: Upload mod jar
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: oretracker
+          name: oretracker-${{ steps.version.outputs.value }}
           path: build/libs/oretracker-*.jar
           if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          MOD_VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+          else
+            TAG="v${MOD_VERSION}"
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" build/libs/oretracker-*.jar --clobber
+            gh release edit "$TAG" --latest
+          else
+            gh release create "$TAG" build/libs/oretracker-*.jar \
+              --target "$GITHUB_SHA" \
+              --title "OreTracker ${TAG}" \
+              --generate-notes \
+              --latest
+          fi
