@@ -1,0 +1,9 @@
+# Credits
+
+- Project author: wkrs14
+- Minecraft: Mojang Studios
+- Mod loader: Minecraft Forge / Forge Development LLC
+- Built with ForgeGradle
+
+Minecraft is a trademark of Mojang Studios. This project is not affiliated with or
+endorsed by Mojang Studios or Forge Development LLC.

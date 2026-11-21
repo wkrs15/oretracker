@@ -1,0 +1,36 @@
+# Gradle
+.gradle/
+build/
+out/
+bin/
+
+# Forge run directories
+run/
+run-data/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.settings/
+.metadata/
+.classpath
+.project
+*.launch
+
+# Visual Studio Code
+.vscode/
+
+# OS / logs
+.DS_Store
+Thumbs.db
+*.log
+
+# Local/generated files
+/META-INF/
+/README.txt
+/changelog.txt
+/src/main/java/com/example/
