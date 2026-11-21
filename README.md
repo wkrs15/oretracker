@@ -23,7 +23,7 @@ Minecraft 1.20.1 Forge 单机矿物追踪模组，纯客户端运行。
 构建完成后，模组位于：
 
 ```text
-build/libs/oretracker-1.20.1-1.1.2.jar
+build/libs/oretracker-1.20.1-1.1.3.jar
 ```
 
 把 jar 放入 `.minecraft/mods` 即可。
@@ -61,7 +61,7 @@ Linux / macOS：
 产物：
 
 ```text
-build/libs/oretracker-1.20.1-1.1.2.jar
+build/libs/oretracker-1.20.1-1.1.3.jar
 ```
 
 ## 配置
@@ -111,3 +111,4 @@ gh repo create oretracker --public --source=. --remote=origin --push
 未授予开源许可，保留所有权利。详见 `LICENSE.txt`。
 
 Minecraft 是 Mojang Studios 的商标。Forge 由 Forge Development LLC 维护。
+
